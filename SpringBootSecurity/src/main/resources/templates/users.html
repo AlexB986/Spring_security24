@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<div>
+    <h2>Data base </h2>
+    <form action="http://localhost:8080/user/read" method="get">
+        <button type="submit">Find All Users</button>
+    </form>
+
+    <h2>Add New User</h2>
+    <form th:action="@{/user/add}" method="get">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required/><br/>
+
+        <label for="course">Course:</label>
+        <input type="number" id="course" name="course" required/><br/>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required/><br/>
+
+        <button type="submit">Add User</button>
+    </form>
+
+    <h2>Update User</h2>
+    <form th:action="@{/user/id}" method="post">
+        <label for="id">User ID:</label>
+        <input type="number" id="id" name="id" required/><br/>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required/><br/>
+
+        <label for="course">Course:</label>
+        <input type="number" id="course" name="course" required/><br/>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required/><br/>
+
+        <button type="submit">Update User</button>
+    </form>
+
+    <h2>Delete User</h2>
+    <form th:action="@{/user/delete/id}" method="get">
+        <label for="id">User ID:</label>
+        <input type="number" id="id" name="id" required/>
+        <button type="submit">Delete User</button>
+    </form>
+
+    <h2>Find User by ID</h2>
+    <form th:action="@{/user/read/id}" method="get">
+        <label for="id">User ID:</label>
+        <input type="number" id="id" name="id" required/>
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>All Users</h2>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.course}"></td>
+            <td th:text="${user.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${user != null}">
+        <h3>User Details</h3>
+        <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+        <p><strong>Course:</strong> <span th:text="${user.course}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+    </div>
+
+    <div th:if="${user == null}">
+        <p>No user found with the given ID.</p>
+    </div>
+</div>
+</body>
+</html>
