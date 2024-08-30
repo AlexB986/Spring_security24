@@ -61,7 +61,7 @@ public class MyUser implements UserDetails {
         return login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(String login  ) {
         this.login = login;
     }
 
@@ -116,12 +116,12 @@ public class MyUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return login;
     }
 
     @Override
