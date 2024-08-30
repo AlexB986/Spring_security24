@@ -2,7 +2,7 @@ package com.example.controller;
 
 
 
-import com.example.model.User;
+import com.example.model.MyUser;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,12 +31,12 @@ public class UserController {
 
     @GetMapping("/add")
     public String addUser(@RequestParam("name") String name,
-                          @RequestParam("course") Integer course,
+                          @RequestParam("password") String password,
                           @RequestParam("email") String email,
                           ModelMap model) {
-        User usersAdd = new User(name, course, email);
+        MyUser usersAdd = new MyUser(name, password, email);
 
-        User userAdd = userService.addUser(usersAdd);
+        MyUser userAdd = userService.addUser(usersAdd);
         model.addAttribute("user", userAdd);
         return "user";
 
@@ -45,9 +45,9 @@ public class UserController {
     @PostMapping("/id")
     public String updateUser(@RequestParam("id") Long id,
                              @RequestParam("name") String name,
-                             @RequestParam("course") Integer course,
+                             @RequestParam("password") String password,
                              @RequestParam("email") String email, ModelMap model) {
-        User updateUser = new User(name, course, email);
+        MyUser updateUser = new MyUser(name, password, email);
         userService.updateUser(id, updateUser);
         model.addAttribute("user", updateUser);
         return "user";
@@ -57,7 +57,7 @@ public class UserController {
     @GetMapping("/read/id")
     public String readUser(@RequestParam("id") Long id, ModelMap model) {
 
-        User findUserId = userService.findByIdUser(id);
+        MyUser findUserId = userService.findByIdUser(id);
         model.addAttribute("user", findUserId);
         return "user";
 
@@ -65,7 +65,7 @@ public class UserController {
 
     @GetMapping("/read")
     public String readAllUser(ModelMap model) {
-        List<User> users = userService.findAllUser();
+        List<MyUser> users = userService.findAllUser();
         model.addAttribute("users", users);
         return "user";
 

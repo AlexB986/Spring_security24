@@ -1,9 +1,11 @@
 package com.example.service;
 
 
-import com.example.model.User;
+import com.example.model.MyUser;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,25 +20,25 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User addUser(User user) {
-        User saveUser = new User();
-        saveUser.setName(user.getName());
+    public MyUser addUser(MyUser user) {
+        MyUser saveUser = new MyUser();
+        saveUser.setLogin(user.getLogin());
         saveUser.setEmail(user.getEmail());
-        saveUser.setRole(user.getRole());
-        saveUser.setCourse(user.getCourse());
+        saveUser.setRoles(user.getRoles());
+        saveUser.setPassword(user.getPassword());
         return userRepository.save(saveUser);
 
     }
 
     @Transactional
     @Override
-    public void updateUser(Long id, User user) {
-        User userFind = findByIdUser(id);
+    public void updateUser(Long id, MyUser user) {
+        MyUser userFind = findByIdUser(id);
         if (userFind != null) {
-            userFind.setName(user.getName());
+            userFind.setLogin(user.getLogin());
             userFind.setEmail(user.getEmail());
-            userFind.setCourse(user.getCourse());
-            userFind.setRole(user.getRole());
+            userFind.setPassword(user.getPassword());
+            userFind.setRoles(user.getRoles());
             userRepository.save(userFind);
         }
     }
@@ -49,8 +51,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User findByIdUser(Long id) {
-        Optional<User> userFindId = userRepository.findById(Math.toIntExact(id));
+    public MyUser findByIdUser(Long id) {
+        Optional<MyUser> userFindId = userRepository.findById(Math.toIntExact(id));
         if (userFindId.isPresent()) {
             return userFindId.get();
         }
@@ -59,8 +61,18 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public List<User> findAllUser() {
-        List<User> users = (List<User>) userRepository.findAll();
+    public List<MyUser> findAllUser() {
+        List<MyUser> users = (List<MyUser>) userRepository.findAll();
         return users;
     }
+
+    @Transactional
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        MyUser myUser = userRepository.findByLogin(userName);
+        if (myUser == null) {
+            throw new UsernameNotFoundException("undnown user " + userName);
+        }
+        return myUser;
+    }
 }
+//818b9ed8-2585-4ccb-9f7a-11548c3fb6bf

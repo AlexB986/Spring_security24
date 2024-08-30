@@ -1,20 +1,19 @@
 package com.example.service;
 
-import com.example.model.Role;
-import com.example.model.User;
+import com.example.model.MyUser;
 
 import java.util.List;
 
 
 public interface UserService {
 
-    User addUser(User user);
+    MyUser addUser(MyUser user);
 
-    void updateUser(Long id, User user);
+    void updateUser(Long id, MyUser user);
 
     void deleteUser(Long id);
 
-    User findByIdUser(Long id);
+    MyUser findByIdUser(Long id);
 
-    List<User> findAllUser();
+    List<MyUser> findAllUser();
 }

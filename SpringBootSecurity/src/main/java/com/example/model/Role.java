@@ -1,11 +1,15 @@
 package com.example.model;
 
+import org.apache.catalina.User;
+import org.apache.catalina.UserDatabase;
+
 import javax.persistence.*;
+import java.lang.annotation.Annotation;
 import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GeneratedValue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,5 +47,20 @@ public class Role {
                 "id=" + id +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+        return null;
+    }
+
+    @Override
+    public GenerationType strategy() {
+        return null;
+    }
+
+    @Override
+    public String generator() {
+        return "";
     }
 }
