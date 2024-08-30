@@ -66,13 +66,5 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
-    @Transactional
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        MyUser myUser = userRepository.findByLogin(userName);
-        if (myUser == null) {
-            throw new UsernameNotFoundException("undnown user " + userName);
-        }
-        return myUser;
-    }
 }
 //818b9ed8-2585-4ccb-9f7a-11548c3fb6bf
