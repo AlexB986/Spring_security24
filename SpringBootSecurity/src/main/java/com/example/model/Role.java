@@ -1,7 +1,7 @@
 package com.example.model;
 
-import org.apache.catalina.User;
-import org.apache.catalina.UserDatabase;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.lang.annotation.Annotation;
@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-public class Role implements GeneratedValue {
+public class Role implements GrantedAuthority  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,7 @@ public class Role implements GeneratedValue {
 
     public Role() {
     }
+
     public Role(String role){
         this.role = role;
     }
@@ -26,6 +27,14 @@ public class Role implements GeneratedValue {
     }
     public void setId(Long id){
         this.id= id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
@@ -50,17 +59,7 @@ public class Role implements GeneratedValue {
     }
 
     @Override
-    public Class<? extends Annotation> annotationType() {
-        return null;
-    }
-
-    @Override
-    public GenerationType strategy() {
-        return null;
-    }
-
-    @Override
-    public String generator() {
-        return "";
+    public String getAuthority() {
+        return role;
     }
 }

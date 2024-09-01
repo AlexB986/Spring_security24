@@ -1,24 +1,43 @@
 package com.example.configs;
 
-import com.example.model.MyUser;
+import com.example.model.Role;
+import com.example.model.User;
 import com.example.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+@Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
+    @Autowired
     private UserRepository userRepository;
 
     public UserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
 
+
+//    Поиск user в БД
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        MyUser user = userRepository.findByLogin(username);
+        User user = userRepository.findByUsername(username);
         if(user == null){
             throw new UsernameNotFoundException(username);
         }
-        return user;
+//        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),user.getAuthorities());
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),getAuthorities(user.getRoles()));
+    }
+    public Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toList());
     }
 }

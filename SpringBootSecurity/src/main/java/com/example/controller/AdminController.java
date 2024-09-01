@@ -2,7 +2,7 @@ package com.example.controller;
 
 
 
-import com.example.model.MyUser;
+import com.example.model.User;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,11 +32,10 @@ public class AdminController {
     @GetMapping("/add")
     public String addUser(@RequestParam("name") String name,
                           @RequestParam("password") String password,
-                          @RequestParam("email") String email,
                           ModelMap model) {
-        MyUser usersAdd = new MyUser(name, password, email);
+        User usersAdd = new User(name,password);
 
-        MyUser userAdd = userService.addUser(usersAdd);
+        User userAdd = userService.addUser(usersAdd);
         model.addAttribute("user", userAdd);
         return "admin";
 
@@ -46,8 +45,8 @@ public class AdminController {
     public String updateUser(@RequestParam("id") Long id,
                              @RequestParam("name") String name,
                              @RequestParam("password") String password,
-                             @RequestParam("email") String email, ModelMap model) {
-        MyUser updateUser = new MyUser(name, password, email);
+                             ModelMap model) {
+        User updateUser = new User(name, password);
         userService.updateUser(id, updateUser);
         model.addAttribute("user", updateUser);
         return "admin";
@@ -57,7 +56,7 @@ public class AdminController {
     @GetMapping("/read/id")
     public String readUser(@RequestParam("id") Long id, ModelMap model) {
 
-        MyUser findUserId = userService.findByIdUser(id);
+        User findUserId = userService.findByIdUser(id);
         model.addAttribute("user", findUserId);
         return "admin";
 
@@ -65,7 +64,7 @@ public class AdminController {
 
     @GetMapping("/read")
     public String readAllUser(ModelMap model) {
-        List<MyUser> users = userService.findAllUser();
+        List<User> users = userService.findAllUser();
         model.addAttribute("users", users);
         return "admin";
 

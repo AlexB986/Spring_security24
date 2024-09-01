@@ -1,11 +1,9 @@
 package com.example.service;
 
 
-import com.example.model.MyUser;
+import com.example.model.User;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,10 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public MyUser addUser(MyUser user) {
-        MyUser saveUser = new MyUser();
-        saveUser.setLogin(user.getLogin());
-        saveUser.setEmail(user.getEmail());
+    public User addUser(User user) {
+        User saveUser = new User();
+        saveUser.setUsername(user.getUsername());
         saveUser.setRoles(user.getRoles());
         saveUser.setPassword(user.getPassword());
         return userRepository.save(saveUser);
@@ -32,11 +29,10 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void updateUser(Long id, MyUser user) {
-        MyUser userFind = findByIdUser(id);
+    public void updateUser(Long id, User user) {
+        User userFind = findByIdUser(id);
         if (userFind != null) {
-            userFind.setLogin(user.getLogin());
-            userFind.setEmail(user.getEmail());
+            userFind.setUsername(user.getUsername());
             userFind.setPassword(user.getPassword());
             userFind.setRoles(user.getRoles());
             userRepository.save(userFind);
@@ -51,8 +47,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public MyUser findByIdUser(Long id) {
-        Optional<MyUser> userFindId = userRepository.findById(Math.toIntExact(id));
+    public User findByIdUser(Long id) {
+        Optional<User> userFindId = userRepository.findById(Math.toIntExact(id));
         if (userFindId.isPresent()) {
             return userFindId.get();
         }
@@ -61,10 +57,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public List<MyUser> findAllUser() {
-        List<MyUser> users = (List<MyUser>) userRepository.findAll();
+    public List<User> findAllUser() {
+        List<User> users = (List<User>) userRepository.findAll();
         return users;
     }
 
 }
-//818b9ed8-2585-4ccb-9f7a-11548c3fb6bf
