@@ -19,11 +19,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User addUser(User user) {
-        User saveUser = new User();
-        saveUser.setUsername(user.getUsername());
-        saveUser.setRoles(user.getRoles());
-        saveUser.setPassword(user.getPassword());
-        return userRepository.save(saveUser);
+        return userRepository.save(user);
 
     }
 
@@ -32,23 +28,20 @@ public class UserServiceImpl implements UserService {
     public void updateUser(Long id, User user) {
         User userFind = findByIdUser(id);
         if (userFind != null) {
-            userFind.setUsername(user.getUsername());
-            userFind.setPassword(user.getPassword());
-            userFind.setRoles(user.getRoles());
-            userRepository.save(userFind);
+            userRepository.save(user);
         }
     }
 
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        userRepository.deleteById(Math.toIntExact(id));
+        userRepository.deleteById(id);
     }
 
     @Transactional
     @Override
     public User findByIdUser(Long id) {
-        Optional<User> userFindId = userRepository.findById(Math.toIntExact(id));
+        Optional<User> userFindId = userRepository.findById(id);
         if (userFindId.isPresent()) {
             return userFindId.get();
         }

@@ -26,7 +26,7 @@ public class AdminController {
 
     @GetMapping("/")
     public String index(ModelMap model) {
-        return "user";
+        return "admin";
     }
 
     @GetMapping("/add")

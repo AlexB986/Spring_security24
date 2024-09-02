@@ -22,10 +22,6 @@ public class UserDetailsService implements org.springframework.security.core.use
     public UserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public User findByUsername(String username){
-        return userRepository.findByUsername(username);
-    }
-
 
 //    Поиск user в БД
     @Override
@@ -37,7 +33,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 //        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),user.getAuthorities());
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),getAuthorities(user.getRoles()));
     }
-    public Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
+    private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toList());
     }
 }
